@@ -1,19 +1,56 @@
 const kDefaultBlockStrength = 40;
 
 const kColorDeficiencyTable = [
-  {name: 'None', values: null}, // Don't use filter
-  {name: 'Protanopia', values: '0.567 0.433 0 0 0    0.558 0.442 0 0 0      0 0.242 0.758 0 0      0 0 0 1 0'},
-  {name: 'Protanomaly', values: '0.817 0.183 0 0 0    0.333 0.667 0 0 0      0 0.125 0.875 0 0      0 0 0 1 0'},
-  {name: 'Deuteranopia', values: '0.625 0.375 0 0 0    0.7 0.3 0 0 0        0 0.3 0.7 0 0        0 0 0 1 0'},
-  {name: 'Deuteranomaly', values: '0.8 0.2 0 0 0      0.258 0.742 0 0 0      0 0.142 0.858 0 0      0 0 0 1 0'},
-  {name: 'Tritanopia', values: '0.95 0.05 0 0 0      0 0.433 0.567 0 0      0 0.475 0.525 0 0      0 0 0 1 0'},
-  {name: 'Tritanomaly', values: '0.967 0.033 0 0 0    0 0.733 0.267 0 0      0 0.183 0.817 0 0      0 0 0 1 0'},
-  {name: 'Achromatopsia (no color)', values: '0.299 0.587 0.114 0 0  0.299 0.587 0.114 0 0    0.299 0.587 0.114 0 0    0 0 0 1 0'},
-  {name: 'Achromatomaly', values: '0.618 0.320 0.062 0 0  0.163 0.775 0.062 0 0    0.163 0.320 0.516 0 0    0 0 0 1 0'}
+  {
+    name: 'None',
+    values: null, // Don't use filter
+  },
+  {
+    name: 'Protanopia',
+    values:
+      '0.567 0.433 0 0 0    0.558 0.442 0 0 0      0 0.242 0.758 0 0      0 0 0 1 0',
+  },
+  {
+    name: 'Protanomaly',
+    values:
+      '0.817 0.183 0 0 0    0.333 0.667 0 0 0      0 0.125 0.875 0 0      0 0 0 1 0',
+  },
+  {
+    name: 'Deuteranopia',
+    values:
+      '0.625 0.375 0 0 0    0.7 0.3 0 0 0        0 0.3 0.7 0 0        0 0 0 1 0',
+  },
+  {
+    name: 'Deuteranomaly',
+    values:
+      '0.8 0.2 0 0 0      0.258 0.742 0 0 0      0 0.142 0.858 0 0      0 0 0 1 0',
+  },
+  {
+    name: 'Tritanopia',
+    values:
+      '0.95 0.05 0 0 0      0 0.433 0.567 0 0      0 0.475 0.525 0 0      0 0 0 1 0',
+  },
+  {
+    name: 'Tritanomaly',
+    values:
+      '0.967 0.033 0 0 0    0 0.733 0.267 0 0      0 0.183 0.817 0 0      0 0 0 1 0',
+  },
+  {
+    name: 'Achromatopsia (no color)',
+    values:
+      '0.299 0.587 0.114 0 0  0.299 0.587 0.114 0 0    0.299 0.587 0.114 0 0    0 0 0 1 0',
+  },
+  {
+    name: 'Achromatomaly',
+    values:
+      '0.618 0.320 0.062 0 0  0.163 0.775 0.062 0 0    0.163 0.320 0.516 0 0    0 0 0 1 0',
+  },
 ];
 
 function updateSettingsImpl() {
-  let blockTypeRadio = document.querySelector('input[type="radio"][name="blockType"]:checked');
+  let blockTypeRadio = document.querySelector(
+    'input[type="radio"][name="blockType"]:checked',
+  );
   let blockType = blockTypeRadio ? blockTypeRadio.id : 'noBlock';
   let colorDeficiencyTypeIndex = document.getElementById('color').selectedIndex;
   browser.extension.getBackgroundPage().updateSettings({
@@ -25,9 +62,10 @@ function updateSettingsImpl() {
     cloudyLevel: parseInt(document.getElementById('cloudy').value),
     flutterLevel: parseInt(document.getElementById('flutter').value),
     colorDeficiencyTypeIndex: colorDeficiencyTypeIndex,
-    colorDeficiencyMatrixValues: kColorDeficiencyTable[colorDeficiencyTypeIndex].values,
+    colorDeficiencyMatrixValues:
+      kColorDeficiencyTable[colorDeficiencyTypeIndex].values,
     blockType: blockType,
-    blockStrength: parseInt(document.getElementById('blockStrength').value)
+    blockStrength: parseInt(document.getElementById('blockStrength').value),
   });
 }
 
@@ -50,7 +88,7 @@ function updateOneSetting(evt) {
 }
 
 function visitLink() {
-  chrome.tabs.create({url: this.getAttribute('href')});
+  chrome.tabs.create({ url: this.getAttribute('href') });
 }
 
 function createColorDeficiencyOptions(settings) {
@@ -64,10 +102,12 @@ function createColorDeficiencyOptions(settings) {
 }
 
 function focusEventTarget(evt) {
-  setTimeout(function() { evt.target.focus(); }, 0);
+  setTimeout(function () {
+    evt.target.focus();
+  }, 0);
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   let settings = browser.extension.getBackgroundPage().getSettings();
   document.getElementById('blur').focus();
   updateValue('blur', settings.blurLevel || 0);
@@ -96,9 +136,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Make links work
   let links = document.querySelectorAll('a[href]');
-  for (var linkNum = 0; linkNum < links.length; linkNum++) { links[linkNum].addEventListener('click', visitLink); }
+  for (var linkNum = 0; linkNum < links.length; linkNum++) {
+    links[linkNum].addEventListener('click', visitLink);
+  }
 
   // Make sliders focus on click
   let sliders = document.querySelectorAll('input[type="range"]');
-  for (var sliderNum = 0; sliderNum < sliders.length; sliderNum++) { sliders[sliderNum].addEventListener('mousedown', focusEventTarget); }
+  for (var sliderNum = 0; sliderNum < sliders.length; sliderNum++) {
+    sliders[sliderNum].addEventListener('mousedown', focusEventTarget);
+  }
 });

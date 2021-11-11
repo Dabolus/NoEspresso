@@ -30,13 +30,16 @@ const kFlutterDist = 15;
 
 function createSvgFilter(filterMarkup, className) {
   let svgMarkup =
-'<svg xmlns="http://www.w3.org/2000/svg" version="1.1">' +
-  '<defs>' +
- '<filter id="' + className + Date.now() + '" >' +
-   filterMarkup +
- '</filter>' +
-   '</defs>' +
-'</svg>';
+    '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">' +
+    '<defs>' +
+    '<filter id="' +
+    className +
+    Date.now() +
+    '" >' +
+    filterMarkup +
+    '</filter>' +
+    '</defs>' +
+    '</svg>';
 
   let containerElt = document.createElement('div');
   containerElt.style.visibility = 'hidden';
@@ -49,7 +52,8 @@ function getSvgColorMatrixFilter(colorMatrixValues) {
   if (!colorMatrixValues) {
     return '';
   }
-  let str = '<feColorMatrix type="matrix" values="' + colorMatrixValues + '" />';
+  let str =
+    '<feColorMatrix type="matrix" values="' + colorMatrixValues + '" />';
   return str;
 }
 
@@ -58,8 +62,10 @@ function getSvgGhostingFilter(ghostingLevel) {
     return '';
   }
   let str =
-        '<feOffset result="offOut" in="SourceGraphic" dx="' + ghostingLevel + '" dy="0" />' +
-        '<feBlend in="SourceGraphic" in2="offOut" mode="multiply" />';
+    '<feOffset result="offOut" in="SourceGraphic" dx="' +
+    ghostingLevel +
+    '" dy="0" />' +
+    '<feBlend in="SourceGraphic" in2="offOut" mode="multiply" />';
   return str;
 }
 
@@ -69,7 +75,9 @@ function getSvgFlutterFilter(flutter) {
   }
   let horizMovement = kFlutterDist / flutter.zoom;
   let str =
-        '<feOffset result="offOut" in="SourceGraphic" dx="' + horizMovement + '" dy="0" />';
+    '<feOffset result="offOut" in="SourceGraphic" dx="' +
+    horizMovement +
+    '" dy="0" />';
   return str;
 }
 
@@ -77,7 +85,9 @@ function oneFlutter(bodyCssFilter) {
   if (--flutterCount <= 0) {
     stopFluttering();
   }
-  document.body.style.webkitFilter = document.body.style.webkitFilter ? '' : bodyCssFilter;
+  document.body.style.webkitFilter = document.body.style.webkitFilter
+    ? ''
+    : bodyCssFilter;
 }
 
 function stopFluttering() {
@@ -89,7 +99,9 @@ function stopFluttering() {
 function startFluttering(flutter, bodyCssFilter) {
   if (!window.flutterInterval) {
     window.flutterCount = Math.random() * flutter.flutterLevel * 1.5 + 5;
-    window.flutterInterval = setInterval(function() { oneFlutter(bodyCssFilter); }, 10);
+    window.flutterInterval = setInterval(function () {
+      oneFlutter(bodyCssFilter);
+    }, 10);
   }
 }
 
@@ -103,8 +115,12 @@ function maybeStartFluttering(flutter, bodyCssFilter) {
 function initFlutter(flutter, bodyCssFilter) {
   startFluttering(flutter, bodyCssFilter);
 
-  window.addEventListener('scroll', function() { maybeStartFluttering(flutter, bodyCssFilter); });
-  window.addEventListener('mousemove', function() { maybeStartFluttering(flutter, bodyCssFilter); });
+  window.addEventListener('scroll', function () {
+    maybeStartFluttering(flutter, bodyCssFilter);
+  });
+  window.addEventListener('mousemove', function () {
+    maybeStartFluttering(flutter, bodyCssFilter);
+  });
 }
 
 function createFloater(floater) {
@@ -116,10 +132,17 @@ function createFloater(floater) {
   floaterImg.style.opacity = floater.opacity.toString();
   floaterImg.style.webkitTransform = 'rotate(' + floater.rotation + 'deg)';
   floaterImg.style.zIndex = '999999';
-  floaterImg.src = browser.runtime.getURL('overlays/floater-' + floater.imageNum + '.png');
+  floaterImg.src = browser.runtime.getURL(
+    'overlays/floater-' + floater.imageNum + '.png',
+  );
   floaterImg.id = 'noCoffeeFloater-' + floater.imageNum;
-  floaterImg.addEventListener('webkitTransitionEnd', // Start new animation some time after last finished
-    function() { animateFloater(floater, floaterImg); }, false);
+  floaterImg.addEventListener(
+    'webkitTransitionEnd', // Start new animation some time after last finished
+    function () {
+      animateFloater(floater, floaterImg);
+    },
+    false,
+  );
   return floaterImg;
 }
 
@@ -135,11 +158,15 @@ function resetFloaters(blockerDiv, floaters) {
     floaterMix[nextItemIndex] = floaterMix[kMaxFloaters - count - 1]; // Don't use same floater twice
     let floater = {
       imageNum: nextItem,
-      opacity: Math.random() * (kMaxFloaterOpacity - kMinFloaterOpacity) + kMinFloaterOpacity,
-      width: (Math.max(kMinFloaterWidth, Math.random() * floaters.maxWidth)) / getZoom(),
+      opacity:
+        Math.random() * (kMaxFloaterOpacity - kMinFloaterOpacity) +
+        kMinFloaterOpacity,
+      width:
+        Math.max(kMinFloaterWidth, Math.random() * floaters.maxWidth) /
+        getZoom(),
       x: Math.random() * 100,
       y: Math.random() * 100,
-      rotation: Math.random() * 360
+      rotation: Math.random() * 360,
     };
     let floaterImg = createFloater(floater);
     blockerDiv.appendChild(floaterImg);
@@ -149,7 +176,7 @@ function resetFloaters(blockerDiv, floaters) {
 
 function animateFloater(floater, floaterImg) {
   let delay = Math.random() * kMaxFloaterTravelDelayTime;
-  setTimeout(function() {
+  setTimeout(function () {
     let id = 'noCoffeeFloaterAnimationStyle-' + floater.imageNum;
     let lastAnimation = document.getElementById(id);
     if (lastAnimation) {
@@ -163,17 +190,33 @@ function animateFloater(floater, floaterImg) {
     let floaterStyleElt = document.createElement('style');
     floaterStyleElt.id = id;
     let direction = Math.random() * 360;
-    let newRotation = floater.rotation + Math.random() * kMaxFloaterRotation * 2 - kMaxFloaterRotation;
+    let newRotation =
+      floater.rotation +
+      Math.random() * kMaxFloaterRotation * 2 -
+      kMaxFloaterRotation;
     let distance = Math.random() * kMaxFloaterTravel;
     let left = floater.x + Math.sin(direction) * distance;
     let top = floater.y + Math.cos(direction) * distance;
-    let seconds = Math.random() * (kMaxFloaterTravelTime - kMinFloaterTravelTime) + kMinFloaterTravelTime;
-    floaterStyleElt.innerText = '#' + floaterImg.id + ' { ' +
-   'top: ' + top + '% !important; ' +
-   'left: ' + left + '% !important; ' +
-   '-webkit-transform: rotate(' + newRotation + 'deg) !important;' +
-   '-webkit-transition: all ' + seconds + 's;' +
-  '}';
+    let seconds =
+      Math.random() * (kMaxFloaterTravelTime - kMinFloaterTravelTime) +
+      kMinFloaterTravelTime;
+    floaterStyleElt.innerText =
+      '#' +
+      floaterImg.id +
+      ' { ' +
+      'top: ' +
+      top +
+      '% !important; ' +
+      'left: ' +
+      left +
+      '% !important; ' +
+      '-webkit-transform: rotate(' +
+      newRotation +
+      'deg) !important;' +
+      '-webkit-transition: all ' +
+      seconds +
+      's;' +
+      '}';
 
     floaterImg.parentNode.appendChild(floaterStyleElt);
   }, delay * 1000);
@@ -188,14 +231,24 @@ function createCloudyDiv(cloudy) {
   let size = 100 * cloudy.zoom;
 
   let style =
-  'z-index:2147483646 !important; ' +
-  '-webkit-transform: scale(' + (1 / cloudy.zoom) + '); ' +
-  '-webkit-transform-origin: 0 0;' +
-  'pointer-events: none; ' +
-  'position: fixed; left: 0; top: 0; height: ' + size + '%; width: ' + size + '%; ' +
-    'background-image: url(' + browser.runtime.getURL('overlays/cataracts.png') + '); ' +
-  'background-repeat: no-repeat; background-size: 100% 100%; ' +
-  'background-position: 0 0; -webkit-filter: opacity(' + cloudy.cloudyLevel + '%);';
+    'z-index:2147483646 !important; ' +
+    '-webkit-transform: scale(' +
+    1 / cloudy.zoom +
+    '); ' +
+    '-webkit-transform-origin: 0 0;' +
+    'pointer-events: none; ' +
+    'position: fixed; left: 0; top: 0; height: ' +
+    size +
+    '%; width: ' +
+    size +
+    '%; ' +
+    'background-image: url(' +
+    browser.runtime.getURL('overlays/cataracts.png') +
+    '); ' +
+    'background-repeat: no-repeat; background-size: 100% 100%; ' +
+    'background-position: 0 0; -webkit-filter: opacity(' +
+    cloudy.cloudyLevel +
+    '%);';
 
   cloudyDiv.setAttribute('style', style);
   return cloudyDiv;
@@ -208,37 +261,65 @@ function createBlockerDiv(block) {
   let blockerDiv = document.createElement('div');
   blockerDiv.className = kBlockerClassName;
   let style =
-  'z-index:2147483646 !important; ' +
-  'pointer-events: none; ' +
-  'position: fixed; ';
+    'z-index:2147483646 !important; ' +
+    'pointer-events: none; ' +
+    'position: fixed; ';
   if (block.image) {
-    style += "background-image: url('" + block.image + "'); " +
- 'background-repeat: no-repeat; background-size: 100% 100%; ' +
- 'left: ' + block.xPosition + '; top: ' + block.yPosition + '; -webkit-filter: opacity(' + block.opacity + '%);';
+    style +=
+      "background-image: url('" +
+      block.image +
+      "'); " +
+      'background-repeat: no-repeat; background-size: 100% 100%; ' +
+      'left: ' +
+      block.xPosition +
+      '; top: ' +
+      block.yPosition +
+      '; -webkit-filter: opacity(' +
+      block.opacity +
+      '%);';
     // "-webkit-filter: url(#noCoffeeDisplacementFilter);
-    if (block.displacement && false) { // Don't try to do this yet
+    if (block.displacement && false) {
+      // Don't try to do this yet
       blockerDiv.innerHTML =
-    '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">' +
-     '<defs>' +
-  '<filter id="noCoffeeDisplacementFilter" filterUnits="userSpaceOnUse">' +
-      '<feImage xlink:href="' + block.image + '" result="noCoffeeSource"/>' +
-      '<feImage xlink:href="' + block.image + '" result="noCoffeeDisplacementMap"/>' +
-      '<feDisplacementMap scale="1" xChannelSelector="R" yChannelSelector="R"   in="noCoffeeSource" in2="noCoffeeDisplacementMap"/>' +
-  '</filter>' +
-     '</defs>' +
-     '<use filter="url(#noCoffeeDisplacementFilter)" />' +
-    '</svg>';
+        '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">' +
+        '<defs>' +
+        '<filter id="noCoffeeDisplacementFilter" filterUnits="userSpaceOnUse">' +
+        '<feImage xlink:href="' +
+        block.image +
+        '" result="noCoffeeSource"/>' +
+        '<feImage xlink:href="' +
+        block.image +
+        '" result="noCoffeeDisplacementMap"/>' +
+        '<feDisplacementMap scale="1" xChannelSelector="R" yChannelSelector="R"   in="noCoffeeSource" in2="noCoffeeDisplacementMap"/>' +
+        '</filter>' +
+        '</defs>' +
+        '<use filter="url(#noCoffeeDisplacementFilter)" />' +
+        '</svg>';
     }
   } else if (block.innerStrength) {
     style += 'left: 0; top: 0; height: 100%; width: 100%;';
     if (block.type === 'radial') {
-      style += 'background-image: -webkit-radial-gradient(circle, ' +
-     block.innerColor + ' ' + block.innerStrength + '%, ' +
- block.outerColor + ' ' + block.outerStrength + '%);';
+      style +=
+        'background-image: -webkit-radial-gradient(circle, ' +
+        block.innerColor +
+        ' ' +
+        block.innerStrength +
+        '%, ' +
+        block.outerColor +
+        ' ' +
+        block.outerStrength +
+        '%);';
     } else {
-      style += 'background-image: -webkit-linear-gradient(left, ' +
-     block.innerColor + ' ' + block.innerStrength + '%, ' +
- block.outerColor + ' ' + block.outerStrength + '%);';
+      style +=
+        'background-image: -webkit-linear-gradient(left, ' +
+        block.innerColor +
+        ' ' +
+        block.innerStrength +
+        '%, ' +
+        block.outerColor +
+        ' ' +
+        block.outerStrength +
+        '%);';
     }
   }
 
@@ -248,8 +329,15 @@ function createBlockerDiv(block) {
 
   if (block.zoom) {
     let size = 100 * block.zoom;
-    style += '-webkit-transform: scale(' + 1 / block.zoom + '); -webkit-transform-origin: 0 0; ' +
- 'width: ' + size + '%; height: ' + size + '%; left: 0; top: 0;';
+    style +=
+      '-webkit-transform: scale(' +
+      1 / block.zoom +
+      '); -webkit-transform-origin: 0 0; ' +
+      'width: ' +
+      size +
+      '%; height: ' +
+      size +
+      '%; left: 0; top: 0;';
   }
 
   blockerDiv.setAttribute('style', style);
@@ -265,26 +353,40 @@ function createSvgSnowOverlay(snow) {
   svgOverlay.className = kSvgOverlayClassName;
   let size = 100 * snow.zoom;
   let startPos = (100 - size) / 2;
-  svgOverlay.setAttribute('style',
-    '-webkit-transform: scale(' + (1 / snow.zoom) + '); ' +
-  'z-index:2147483645 !important; ' +
-  'pointer-events: none; ' +
-  'position: fixed; left: ' + startPos + '%; top: ' + startPos + '%; height: ' + size + '%; width: ' + size + '%; ');
+  svgOverlay.setAttribute(
+    'style',
+    '-webkit-transform: scale(' +
+      1 / snow.zoom +
+      '); ' +
+      'z-index:2147483645 !important; ' +
+      'pointer-events: none; ' +
+      'position: fixed; left: ' +
+      startPos +
+      '%; top: ' +
+      startPos +
+      '%; height: ' +
+      size +
+      '%; width: ' +
+      size +
+      '%; ',
+  );
   svgOverlay.innerHTML =
-  '<svg xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%" preserveAspectRatio="xMidYMid meet">' +
-   '<defs>' +
-  '<filter id="noCoffeeSnowFilter" filterUnits="userSpaceOnUse" x="0" y="0">' +
+    '<svg xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%" preserveAspectRatio="xMidYMid meet">' +
+    '<defs>' +
+    '<filter id="noCoffeeSnowFilter" filterUnits="userSpaceOnUse" x="0" y="0">' +
     '<feTurbulence type="fractalNoise" baseFrequency=".25" numOctaves="1" seed="4" stitchTiles="noStitch" width="159" height="120">' +
-      '<animate attributeType="XML" attributeName="seed" from="500" to="1" dur="70s" repeatCount="indefinite" />' +
+    '<animate attributeType="XML" attributeName="seed" from="500" to="1" dur="70s" repeatCount="indefinite" />' +
     '</feTurbulence>' +
     '<feComponentTransfer>' +
-      '<feFuncA type="discrete" tableValues="0 0 ' + snow.amount + ' 1"/>' +
+    '<feFuncA type="discrete" tableValues="0 0 ' +
+    snow.amount +
+    ' 1"/>' +
     '</feComponentTransfer>' +
     '<feTile x="0" y="0" width="100%" height="100%" result="tiled"/>' +
-  '</filter>' +
-   '</defs>' +
-   '<use filter="url(#noCoffeeSnowFilter)" />' +
-  '</svg>';
+    '</filter>' +
+    '</defs>' +
+    '<use filter="url(#noCoffeeSnowFilter)" />' +
+    '</svg>';
 
   return svgOverlay;
 }
@@ -294,21 +396,26 @@ function getView(viewData) {
   let view = {
     doc: {
       cssFilter: '',
-      svgFilterElt: undefined
+      svgFilterElt: undefined,
     },
     body: {
       cssFilter: '',
-      svgFilterElt: undefined
+      svgFilterElt: undefined,
     },
     svgOverlayElt: undefined,
-    blockerDiv: undefined
+    blockerDiv: undefined,
   };
 
   // Create new svg color filter -- old one will be removed
   // Needs to go on doc element so that background of page is always affected
-  let svgColorFilterMarkup = getSvgColorMatrixFilter(viewData.colorMatrixValues);
+  let svgColorFilterMarkup = getSvgColorMatrixFilter(
+    viewData.colorMatrixValues,
+  );
   if (svgColorFilterMarkup) {
-    view.doc.svgFilterElt = createSvgFilter(svgColorFilterMarkup, kSvgDocClassName);
+    view.doc.svgFilterElt = createSvgFilter(
+      svgColorFilterMarkup,
+      kSvgDocClassName,
+    );
     let id = view.doc.svgFilterElt.querySelector('filter').id;
     view.doc.cssFilter += 'url(#' + id + ') ';
   }
@@ -319,7 +426,10 @@ function getView(viewData) {
   let svgFlutterFilterMarkup = getSvgFlutterFilter(viewData.flutter);
   stopFluttering();
   if (svgGhostingFilterMarkup || svgFlutterFilterMarkup) {
-    view.body.svgFilterElt = createSvgFilter(svgFlutterFilterMarkup || svgGhostingFilterMarkup, kSvgBodyClassName);
+    view.body.svgFilterElt = createSvgFilter(
+      svgFlutterFilterMarkup || svgGhostingFilterMarkup,
+      kSvgBodyClassName,
+    );
     let id = view.body.svgFilterElt.querySelector('filter').id;
     view.body.cssFilter += 'url(#' + id + ')';
     if (svgFlutterFilterMarkup) {
@@ -364,17 +474,20 @@ function getViewData(settings) {
   let zoom = getZoom();
 
   // When there is any ghosting, add a little blur
-  let blurPlusExtra = settings.blurLevel + (settings.ghostingLevel > 0 ? 3 : 0) + (settings.cloudyLevel / 2.5);
+  let blurPlusExtra =
+    settings.blurLevel +
+    (settings.ghostingLevel > 0 ? 3 : 0) +
+    settings.cloudyLevel / 2.5;
 
   let viewData = {
-    blur: (blurPlusExtra / zoom) / 2,
+    blur: blurPlusExtra / zoom / 2,
     contrast: settings.contrastLevel ? 60 - settings.contrastLevel : 100,
     colorMatrixValues: settings.colorDeficiencyMatrixValues,
     brightness: settings.brightnessLevel * 1.2,
     ghosting: settings.ghostingLevel / zoom,
     snow: { zoom: zoom, amount: 0.03 * settings.snowLevel },
     cloudy: { zoom: zoom, cloudyLevel: settings.cloudyLevel * 6 },
-    flutter: { zoom: zoom, flutterLevel: settings.flutterLevel }
+    flutter: { zoom: zoom, flutterLevel: settings.flutterLevel },
   };
 
   if (settings.blockStrength) {
@@ -384,18 +497,19 @@ function getViewData(settings) {
           type: 'radial',
           innerStrength: settings.blockStrength / 2,
           outerStrength: settings.blockStrength + 10,
-          innerColor: 'rgba(150,150,150,' + (0.9 + settings.blockStrength / 1000) + ')',
-          outerColor: 'transparent'
+          innerColor:
+            'rgba(150,150,150,' + (0.9 + settings.blockStrength / 1000) + ')',
+          outerColor: 'transparent',
         };
         break;
       case 'peripheralBlock': // Glaucoma or retinitis pigmentosa
         viewData.block = {
           block: zoom,
           type: 'radial',
-          innerStrength: (100 - settings.blockStrength) - 30,
+          innerStrength: 100 - settings.blockStrength - 30,
           outerStrength: (100 - settings.blockStrength) * 1.5 - 20,
           innerColor: 'transparent',
-          outerColor: 'black'
+          outerColor: 'black',
         };
         break;
       case 'sideBlock': // Hemianopia
@@ -404,7 +518,7 @@ function getViewData(settings) {
           innerStrength: settings.blockStrength / 2,
           outerStrength: settings.blockStrength + 10,
           innerColor: 'black',
-          outerColor: 'transparent'
+          outerColor: 'transparent',
         };
         break;
       case 'spotBlock': // Diabetic retinopathy
@@ -418,29 +532,32 @@ function getViewData(settings) {
           opacity: settings.blockStrength,
           extraOpacity: settings.blockStrength * 2,
           displacement: false,
-          zoom: zoom
+          zoom: zoom,
         };
         break;
       case 'cornerBlock': // Retinal detachment
         viewData.block = {
           outerWidth: window.top.outerWidth, // We rerender when zoom or window size chnages
           outerHeight: window.top.outerHeight,
-          xPosition: (settings.blockStrength / 2.5 - 40) + '%',
-          yPosition: (settings.blockStrength / 2.5 - 40) + '%',
+          xPosition: settings.blockStrength / 2.5 - 40 + '%',
+          yPosition: settings.blockStrength / 2.5 - 40 + '%',
           image: browser.runtime.getURL('overlays/retinal-detachment.png'),
           opacity: 100,
           displacement: true,
-          zoom: zoom
+          zoom: zoom,
         };
-        // Fall-through -- retinal detachment comes with floaters
+      // Fall-through -- retinal detachment comes with floaters
       case 'floaterBlock': // Floaters
         if (typeof viewData.block === 'undefined') {
           viewData.block = {};
         }
         viewData.block.floaters = {
-          numFloaters: Math.min(Math.round(settings.blockStrength / 6.5 + 1), kMaxFloaters),
+          numFloaters: Math.min(
+            Math.round(settings.blockStrength / 6.5 + 1),
+            kMaxFloaters,
+          ),
           maxVelocity: 2,
-          maxWidth: settings.blockStrength + 50
+          maxWidth: settings.blockStrength + 50,
         };
         viewData.block.zoom = zoom;
         break;
@@ -453,7 +570,9 @@ function getViewData(settings) {
 }
 
 function deleteNodeIfExists(node) {
-  if (node) { node.parentNode.removeChild(node); }
+  if (node) {
+    node.parentNode.removeChild(node);
+  }
 }
 
 function deepEquals(obj1, obj2) {
@@ -525,20 +644,19 @@ function refresh(viewData) {
 }
 
 // Setup refresh listener
-browser.runtime.onMessage.addListener(
-  function(request) {
-    if (request.type === 'refresh') {
-      let viewData = getViewData(request.settings);
-      if (!deepEquals(viewData, oldViewData)) {
-        refresh(viewData); // View data has changed -- re-render
-        oldViewData = viewData;
-      }
+browser.runtime.onMessage.addListener(function (request) {
+  if (request.type === 'refresh') {
+    let viewData = getViewData(request.settings);
+    if (!deepEquals(viewData, oldViewData)) {
+      refresh(viewData); // View data has changed -- re-render
+      oldViewData = viewData;
     }
-  });
+  }
+});
 
 function initIfStillNecessaryAndBodyExists() {
   if (document.body && !isInitialized) {
-    browser.runtime.sendMessage({type: 'getSettings'}, function() {});
+    browser.runtime.sendMessage({ type: 'getSettings' }, function () {});
     isInitialized = true;
   }
 }
@@ -547,6 +665,6 @@ var isInitialized = false;
 setTimeout(initIfStillNecessaryAndBodyExists, 0);
 
 // Refresh once on first load
-document.addEventListener('readystatechange', function() {
+document.addEventListener('readystatechange', function () {
   initIfStillNecessaryAndBodyExists();
 });
