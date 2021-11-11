@@ -6,14 +6,14 @@ It is an updated version of Eitan Isaacson's NoCoffee Vision Simulator, which is
 
 ## Development
 
-Install dependencies by running `npm install`.
+Install dependencies by running `yarn install`.
 
 ### Running and Testing
 
-You can lint with `npm test`.
+You can lint with `yarn test`.
 
-To test it in a browser, you can do `npm start:firefox` or `npm start:chrome`.
+To test it in a browser, you can do `yarn start:firefox` or `yarn start:chrome`.
 
 ### Building
 
-`npm run build` will give you a zip file.
+`yarn build` will give you a zip file.
