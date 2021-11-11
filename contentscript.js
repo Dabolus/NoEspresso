@@ -656,7 +656,7 @@ browser.runtime.onMessage.addListener(function (request) {
 
 function initIfStillNecessaryAndBodyExists() {
   if (document.body && !isInitialized) {
-    browser.runtime.sendMessage({ type: 'getSettings' }, function () {});
+    browser.runtime.sendMessage({ type: 'getSettings' });
     isInitialized = true;
   }
 }
