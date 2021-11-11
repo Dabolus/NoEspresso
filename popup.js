@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
   updateSettings();
 
   // Add listeners
-  document.visionSettings.addEventListener('change', updateOneSetting);
+  document.visionSettings.addEventListener('input', updateOneSetting);
   document.visionSettings.addEventListener('select', updateSettings);
   document.visionSettings.addEventListener('reset', updateSettings);
 
