@@ -133,7 +133,7 @@ function createFloater(floater) {
   floaterImg.style.webkitTransform = 'rotate(' + floater.rotation + 'deg)';
   floaterImg.style.zIndex = '999999';
   floaterImg.src = browser.runtime.getURL(
-    'overlays/floater-' + floater.imageNum + '.png',
+    'overlays/floater-' + floater.imageNum + '.png'
   );
   floaterImg.id = 'noCoffeeFloater-' + floater.imageNum;
   floaterImg.addEventListener(
@@ -141,7 +141,7 @@ function createFloater(floater) {
     function () {
       animateFloater(floater, floaterImg);
     },
-    false,
+    false
   );
   return floaterImg;
 }
@@ -368,7 +368,7 @@ function createSvgSnowOverlay(snow) {
       size +
       '%; width: ' +
       size +
-      '%; ',
+      '%; '
   );
   svgOverlay.innerHTML =
     '<svg xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%" preserveAspectRatio="xMidYMid meet">' +
@@ -409,12 +409,12 @@ function getView(viewData) {
   // Create new svg color filter -- old one will be removed
   // Needs to go on doc element so that background of page is always affected
   let svgColorFilterMarkup = getSvgColorMatrixFilter(
-    viewData.colorMatrixValues,
+    viewData.colorMatrixValues
   );
   if (svgColorFilterMarkup) {
     view.doc.svgFilterElt = createSvgFilter(
       svgColorFilterMarkup,
-      kSvgDocClassName,
+      kSvgDocClassName
     );
     let id = view.doc.svgFilterElt.querySelector('filter').id;
     view.doc.cssFilter += 'url(#' + id + ') ';
@@ -428,7 +428,7 @@ function getView(viewData) {
   if (svgGhostingFilterMarkup || svgFlutterFilterMarkup) {
     view.body.svgFilterElt = createSvgFilter(
       svgFlutterFilterMarkup || svgGhostingFilterMarkup,
-      kSvgBodyClassName,
+      kSvgBodyClassName
     );
     let id = view.body.svgFilterElt.querySelector('filter').id;
     view.body.cssFilter += 'url(#' + id + ')';
@@ -554,7 +554,7 @@ function getViewData(settings) {
         viewData.block.floaters = {
           numFloaters: Math.min(
             Math.round(settings.blockStrength / 6.5 + 1),
-            kMaxFloaters,
+            kMaxFloaters
           ),
           maxVelocity: 2,
           maxWidth: settings.blockStrength + 50,

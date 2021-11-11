@@ -49,7 +49,7 @@ const kColorDeficiencyTable = [
 
 function updateSettingsImpl() {
   let blockTypeRadio = document.querySelector(
-    'input[type="radio"][name="blockType"]:checked',
+    'input[type="radio"][name="blockType"]:checked'
   );
   let blockType = blockTypeRadio ? blockTypeRadio.id : 'noBlock';
   let colorDeficiencyTypeIndex = document.getElementById('color').selectedIndex;
