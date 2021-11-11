@@ -74,7 +74,7 @@ function updateSettings() {
 }
 
 function updateValue(type, value) {
-  let inputs = document.querySelectorAll('.' + type + ' input');
+  const inputs = document.querySelectorAll(`.${type}`);
   for (let count = 0; count < inputs.length; count++) {
     inputs[count].value = value;
   }
@@ -82,7 +82,7 @@ function updateValue(type, value) {
 
 function updateOneSetting(evt) {
   if (evt.target.localName === 'input' && evt.target.hasAttribute('value')) {
-    updateValue(evt.target.parentNode.className, evt.target.value);
+    updateValue(evt.target.className, evt.target.value);
   }
   updateSettings();
 }
