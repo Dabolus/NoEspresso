@@ -4,6 +4,8 @@ body {
   font-family: Roboto, sans-serif;
   padding-left: 12px;
   padding-right: 12px;
+  width: 480px;
+  box-sizing: border-box;
 }
 
 @media (prefers-color-scheme: light) {
@@ -14,7 +16,7 @@ body {
 }
 
 h1 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   margin: 0;
 }
 
@@ -28,7 +30,7 @@ h1 {
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr 40px;
-  gap: 16px;
+  gap: 8px;
   padding: 6px 0;
 }
 
