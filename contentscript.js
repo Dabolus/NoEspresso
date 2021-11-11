@@ -12,11 +12,11 @@
 var oldViewData = {};
 var flutterCount = 0;
 
-const kSvgDocClassName = 'noCoffeeSvgFilterDoc';
-const kSvgBodyClassName = 'noCoffeeSvgFilterBody';
-const kSvgOverlayClassName = 'noCoffeeSvgOverlay';
-const kBlockerClassName = 'noCoffeeVisionBlockingDiv';
-const kCloudyClassName = 'noCoffeeVisionCloudyDiv';
+const kSvgDocClassName = 'noEspressoSvgFilterDoc';
+const kSvgBodyClassName = 'noEspressoSvgFilterBody';
+const kSvgOverlayClassName = 'noEspressoSvgOverlay';
+const kBlockerClassName = 'noEspressoVisionBlockingDiv';
+const kCloudyClassName = 'noEspressoVisionCloudyDiv';
 const kMaxFloaters = 15;
 const kMaxFloaterTravel = 10; // Percent of screen
 const kMinFloaterTravelTime = 3; // Seconds
@@ -135,7 +135,7 @@ function createFloater(floater) {
   floaterImg.src = browser.runtime.getURL(
     'overlays/floater-' + floater.imageNum + '.png'
   );
-  floaterImg.id = 'noCoffeeFloater-' + floater.imageNum;
+  floaterImg.id = 'noEspressoFloater-' + floater.imageNum;
   floaterImg.addEventListener(
     'webkitTransitionEnd', // Start new animation some time after last finished
     function () {
@@ -177,7 +177,7 @@ function resetFloaters(blockerDiv, floaters) {
 function animateFloater(floater, floaterImg) {
   let delay = Math.random() * kMaxFloaterTravelDelayTime;
   setTimeout(function () {
-    let id = 'noCoffeeFloaterAnimationStyle-' + floater.imageNum;
+    let id = 'noEspressoFloaterAnimationStyle-' + floater.imageNum;
     let lastAnimation = document.getElementById(id);
     if (lastAnimation) {
       // Stabilize the coordinates to the new location so it doesn't jump back when we remove the old style
@@ -277,23 +277,23 @@ function createBlockerDiv(block) {
       '; -webkit-filter: opacity(' +
       block.opacity +
       '%);';
-    // "-webkit-filter: url(#noCoffeeDisplacementFilter);
+    // "-webkit-filter: url(#noEspressoDisplacementFilter);
     if (block.displacement && false) {
       // Don't try to do this yet
       blockerDiv.innerHTML =
         '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">' +
         '<defs>' +
-        '<filter id="noCoffeeDisplacementFilter" filterUnits="userSpaceOnUse">' +
+        '<filter id="noEspressoDisplacementFilter" filterUnits="userSpaceOnUse">' +
         '<feImage xlink:href="' +
         block.image +
-        '" result="noCoffeeSource"/>' +
+        '" result="noEspressoSource"/>' +
         '<feImage xlink:href="' +
         block.image +
-        '" result="noCoffeeDisplacementMap"/>' +
-        '<feDisplacementMap scale="1" xChannelSelector="R" yChannelSelector="R"   in="noCoffeeSource" in2="noCoffeeDisplacementMap"/>' +
+        '" result="noEspressoDisplacementMap"/>' +
+        '<feDisplacementMap scale="1" xChannelSelector="R" yChannelSelector="R"   in="noEspressoSource" in2="noEspressoDisplacementMap"/>' +
         '</filter>' +
         '</defs>' +
-        '<use filter="url(#noCoffeeDisplacementFilter)" />' +
+        '<use filter="url(#noEspressoDisplacementFilter)" />' +
         '</svg>';
     }
   } else if (block.innerStrength) {
@@ -373,7 +373,7 @@ function createSvgSnowOverlay(snow) {
   svgOverlay.innerHTML =
     '<svg xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%" preserveAspectRatio="xMidYMid meet">' +
     '<defs>' +
-    '<filter id="noCoffeeSnowFilter" filterUnits="userSpaceOnUse" x="0" y="0">' +
+    '<filter id="noEspressoSnowFilter" filterUnits="userSpaceOnUse" x="0" y="0">' +
     '<feTurbulence type="fractalNoise" baseFrequency=".25" numOctaves="1" seed="4" stitchTiles="noStitch" width="159" height="120">' +
     '<animate attributeType="XML" attributeName="seed" from="500" to="1" dur="70s" repeatCount="indefinite" />' +
     '</feTurbulence>' +
@@ -385,7 +385,7 @@ function createSvgSnowOverlay(snow) {
     '<feTile x="0" y="0" width="100%" height="100%" result="tiled"/>' +
     '</filter>' +
     '</defs>' +
-    '<use filter="url(#noCoffeeSnowFilter)" />' +
+    '<use filter="url(#noEspressoSnowFilter)" />' +
     '</svg>';
 
   return svgOverlay;

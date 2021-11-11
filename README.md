@@ -1,8 +1,8 @@
-# NoCoffee Vision Simulator
+# NoEspresso Vision Simulator
 
-NoCoffee is an extension by Aaron Leventhal that simulates different visual impairments and demonstrates how web content would be seen through each of these impairments. You can read more about it in [Aaron's post](https://accessgarage.wordpress.com/2013/02/09/458/).
+NoEspresso is an extension that simulates different visual impairments and demonstrates how web content would be seen through each of these impairments.
 
-This version offers modest updates and a WebExtension port so it will work on Firefox as well.
+It is an updated version of Eitan Isaacson's NoCoffee Vision Simulator, which is itself an updated version of the original Aaron Leventhal's NoCoffee Vision Simulator. You can read more about it in [Aaron's post](https://accessgarage.wordpress.com/2013/02/09/458/).
 
 ## Development
 
