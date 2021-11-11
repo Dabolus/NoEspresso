@@ -14,11 +14,11 @@
   "author": "Giorgio Garasto",
   "license": "MIT",
   "dependencies": {
-    "webextension-polyfill": "^0.2.1"
+    "webextension-polyfill": "^0.8.0"
   },
   "devDependencies": {
-    "eslint": "^4.8.0",
+    "eslint": "^7.32.0",
     "prettier": "^2.4.1",
-    "web-ext": "^2.2.0"
+    "web-ext": "^6.5.0"
   }
 }
