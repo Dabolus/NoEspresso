@@ -8,15 +8,17 @@
     "test": "eslint . && web-ext lint --ignore-files package\\* launch_chrome.sh",
     "start:firefox": "web-ext run",
     "start:chrome": "./launch_chrome.sh",
-    "build": "web-ext build --ignore-files package\\* launch_chrome.sh --overwrite-dest"
+    "build": "web-ext build --ignore-files package\\* launch_chrome.sh --overwrite-dest",
+    "format": "prettier --write '**/*.{js,json}'"
   },
-"author": "Aaron Leventhal",
-"license": "MIT",
+  "author": "Aaron Leventhal",
+  "license": "MIT",
   "dependencies": {
     "webextension-polyfill": "^0.2.1"
   },
   "devDependencies": {
     "eslint": "^4.8.0",
+    "prettier": "^2.4.1",
     "web-ext": "^2.2.0"
   }
 }
