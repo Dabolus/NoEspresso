@@ -488,6 +488,7 @@ function getViewData(settings) {
     snow: { zoom: zoom, amount: 0.03 * settings.snowLevel },
     cloudy: { zoom: zoom, cloudyLevel: settings.cloudyLevel * 6 },
     flutter: { zoom: zoom, flutterLevel: settings.flutterLevel },
+    includeCursor: settings.includeCursor,
   };
 
   if (settings.blockStrength) {
@@ -641,6 +642,13 @@ function refresh(viewData) {
 
   document.documentElement.style.webkitFilter = view.doc.cssFilter;
   document.body.style.webkitFilter = view.body.cssFilter;
+  document.documentElement.style.cursor = viewData.includeCursor
+    ? `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xml:space='preserve' width='11.6' height='18.3' viewBox='0 0 11.6 18.3' style='filter:${encodeURIComponent(
+        view.body.cssFilter
+      )} ${encodeURIComponent(
+        view.doc.cssFilter
+      )}'%3E%3Cpath fill='%23FFF' d='M0 16V0l11.6 11.6H4.8l-.4.1z'/%3E%3Cpath fill='%23FFF' d='m9.1 16.7-3.6 1.5L.8 7.1l3.7-1.5z'/%3E%3Cpath d='m2.83 9.4 1.85-.78L7.78 16l-1.85.77z'/%3E%3Cpath d='M1 2.4v11.2l3-2.9.4-.1h4.8z'/%3E%3C/svg%3E"), auto`
+    : '';
 }
 
 // Setup refresh listener

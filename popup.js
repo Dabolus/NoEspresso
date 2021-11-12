@@ -53,6 +53,9 @@ function updateSettingsImpl() {
   );
   let blockType = blockTypeRadio ? blockTypeRadio.id : 'noBlock';
   let colorDeficiencyTypeIndex = document.getElementById('color').selectedIndex;
+  const includeCursorCheckbox = document.querySelector(
+    'input[type="checkbox"][name="includeCursor"]'
+  );
   browser.extension.getBackgroundPage().updateSettings({
     blurLevel: parseInt(document.getElementById('blur').value),
     contrastLevel: parseInt(document.getElementById('contrast').value),
@@ -66,6 +69,7 @@ function updateSettingsImpl() {
       kColorDeficiencyTable[colorDeficiencyTypeIndex].values,
     blockType: blockType,
     blockStrength: parseInt(document.getElementById('blockStrength').value),
+    includeCursor: includeCursorCheckbox.checked,
   });
 }
 
@@ -127,10 +131,19 @@ document.addEventListener('DOMContentLoaded', function () {
   document.visionSettings[blockType].checked = 'checked';
   // ----------------------------------------------------------------------
 
+  // ----------------------------------------------------------------------
+  // Experimental settings
+  const includeCursor = settings.includeCursor || false;
+  if (includeCursor) {
+    document.visionSettings.includeCursor.checked = 'checked';
+  }
+  // ----------------------------------------------------------------------
+
   updateSettings();
 
   // Add listeners
   document.visionSettings.addEventListener('input', updateOneSetting);
+  document.visionSettings.addEventListener('change', updateSettings);
   document.visionSettings.addEventListener('select', updateSettings);
   document.visionSettings.addEventListener('reset', updateSettings);
 
