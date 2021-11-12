@@ -264,6 +264,13 @@ function createBlockerDiv(block) {
     'z-index:2147483646 !important; ' +
     'pointer-events: none; ' +
     'position: fixed; ';
+  if (block.type === 'fullScreen') {
+    style +=
+      'top: 0; left: 0; width: 100%; height: 100%; background-color: #000;';
+    blockerDiv.setAttribute('style', style);
+
+    return blockerDiv;
+  }
   if (block.image) {
     style +=
       "background-image: url('" +
@@ -493,6 +500,11 @@ function getViewData(settings) {
 
   if (settings.blockStrength) {
     switch (settings.blockType) {
+      case 'blindness':
+        viewData.block = {
+          type: 'fullScreen',
+        };
+        break;
       case 'centralBlock': // Macular degeneration
         viewData.block = {
           type: 'radial',
