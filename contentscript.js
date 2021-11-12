@@ -42,7 +42,7 @@ function createSvgFilter(filterMarkup, className) {
     '</svg>';
 
   let containerElt = document.createElement('div');
-  containerElt.style.visibility = 'hidden';
+  containerElt.style.display = 'none';
   containerElt.className = className;
   containerElt.innerHTML = svgMarkup;
   return containerElt;
