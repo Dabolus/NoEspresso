@@ -85,13 +85,11 @@ function oneFlutter(bodyCssFilter) {
   if (--flutterCount <= 0) {
     stopFluttering();
   }
-  document.body.style.webkitFilter = document.body.style.webkitFilter
-    ? ''
-    : bodyCssFilter;
+  document.body.style.filter = document.body.style.filter ? '' : bodyCssFilter;
 }
 
 function stopFluttering() {
-  document.body.webkitFilter = '';
+  document.body.filter = '';
   clearInterval(window.flutterInterval);
   window.flutterInterval = 0;
 }
@@ -130,14 +128,14 @@ function createFloater(floater) {
   floaterImg.style.left = floater.x + '%';
   floaterImg.style.top = floater.y + '%';
   floaterImg.style.opacity = floater.opacity.toString();
-  floaterImg.style.webkitTransform = 'rotate(' + floater.rotation + 'deg)';
+  floaterImg.style.transform = 'rotate(' + floater.rotation + 'deg)';
   floaterImg.style.zIndex = '999999';
   floaterImg.src = browser.runtime.getURL(
     'overlays/floater-' + floater.imageNum + '.png'
   );
   floaterImg.id = 'noEspressoFloater-' + floater.imageNum;
   floaterImg.addEventListener(
-    'webkitTransitionEnd', // Start new animation some time after last finished
+    'transitionend', // Start new animation some time after last finished
     function () {
       animateFloater(floater, floaterImg);
     },
@@ -210,10 +208,10 @@ function animateFloater(floater, floaterImg) {
       'left: ' +
       left +
       '% !important; ' +
-      '-webkit-transform: rotate(' +
+      'transform: rotate(' +
       newRotation +
       'deg) !important;' +
-      '-webkit-transition: all ' +
+      'transition: all ' +
       seconds +
       's;' +
       '}';
@@ -232,10 +230,10 @@ function createCloudyDiv(cloudy) {
 
   let style =
     'z-index:2147483646 !important; ' +
-    '-webkit-transform: scale(' +
+    'transform: scale(' +
     1 / cloudy.zoom +
     '); ' +
-    '-webkit-transform-origin: 0 0;' +
+    'transform-origin: 0 0;' +
     'pointer-events: none; ' +
     'position: fixed; left: 0; top: 0; height: ' +
     size +
@@ -246,7 +244,7 @@ function createCloudyDiv(cloudy) {
     browser.runtime.getURL('overlays/cataracts.png') +
     '); ' +
     'background-repeat: no-repeat; background-size: 100% 100%; ' +
-    'background-position: 0 0; -webkit-filter: opacity(' +
+    'background-position: 0 0; filter: opacity(' +
     cloudy.cloudyLevel +
     '%);';
 
@@ -281,10 +279,10 @@ function createBlockerDiv(block) {
       block.xPosition +
       '; top: ' +
       block.yPosition +
-      '; -webkit-filter: opacity(' +
+      '; filter: opacity(' +
       block.opacity +
       '%);';
-    // "-webkit-filter: url(#noEspressoDisplacementFilter);
+    // "filter: url(#noEspressoDisplacementFilter);
     if (block.displacement && false) {
       // Don't try to do this yet
       blockerDiv.innerHTML =
@@ -307,7 +305,7 @@ function createBlockerDiv(block) {
     style += 'left: 0; top: 0; height: 100%; width: 100%;';
     if (block.type === 'radial') {
       style +=
-        'background-image: -webkit-radial-gradient(circle, ' +
+        'background-image: radial-gradient(circle, ' +
         block.innerColor +
         ' ' +
         block.innerStrength +
@@ -318,7 +316,7 @@ function createBlockerDiv(block) {
         '%);';
     } else {
       style +=
-        'background-image: -webkit-linear-gradient(left, ' +
+        'background-image: linear-gradient(left, ' +
         block.innerColor +
         ' ' +
         block.innerStrength +
@@ -337,9 +335,9 @@ function createBlockerDiv(block) {
   if (block.zoom) {
     let size = 100 * block.zoom;
     style +=
-      '-webkit-transform: scale(' +
+      'transform: scale(' +
       1 / block.zoom +
-      '); -webkit-transform-origin: 0 0; ' +
+      '); transform-origin: 0 0; ' +
       'width: ' +
       size +
       '%; height: ' +
@@ -362,7 +360,7 @@ function createSvgSnowOverlay(snow) {
   let startPos = (100 - size) / 2;
   svgOverlay.setAttribute(
     'style',
-    '-webkit-transform: scale(' +
+    'transform: scale(' +
       1 / snow.zoom +
       '); ' +
       'z-index:2147483645 !important; ' +
@@ -652,8 +650,8 @@ function refresh(viewData) {
     }
   }
 
-  document.documentElement.style.webkitFilter = view.doc.cssFilter;
-  document.body.style.webkitFilter = view.body.cssFilter;
+  document.documentElement.style.filter = view.doc.cssFilter;
+  document.body.style.filter = view.body.cssFilter;
   document.documentElement.style.cursor = viewData.includeCursor
     ? `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xml:space='preserve' width='11.6' height='18.3' viewBox='0 0 11.6 18.3' style='filter:${encodeURIComponent(
         view.body.cssFilter
