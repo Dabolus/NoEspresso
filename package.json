@@ -11,7 +11,11 @@
     "build": "web-ext build --ignore-files package\\* launch_chrome.sh --overwrite-dest",
     "format": "prettier --write '**/*.{js,json}'"
   },
-  "author": "Giorgio Garasto",
+  "contributors": [
+    "Giorgio Garasto <giorgio@garasto.me> (https://giorgio.garasto.me)",
+    "Eitan Isaacson <eitan@monotonous.org> (http://monotonous.org)",
+    "Aaron Leventhal <aleventhal@google.com> (https://accessgarage.wordpress.com)"
+  ],
   "license": "MIT",
   "dependencies": {
     "webextension-polyfill": "^0.8.0"
