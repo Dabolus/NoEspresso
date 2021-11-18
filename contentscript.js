@@ -652,13 +652,34 @@ function refresh(viewData) {
 
   document.documentElement.style.filter = view.doc.cssFilter;
   document.body.style.filter = view.body.cssFilter;
-  document.documentElement.style.cursor = viewData.includeCursor
-    ? `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xml:space='preserve' width='11.6' height='18.3' viewBox='0 0 11.6 18.3' style='filter:${encodeURIComponent(
-        view.body.cssFilter
-      )} ${encodeURIComponent(
-        view.doc.cssFilter
-      )}'%3E%3Cpath fill='%23FFF' d='M0 16V0l11.6 11.6H4.8l-.4.1z'/%3E%3Cpath fill='%23FFF' d='m9.1 16.7-3.6 1.5L.8 7.1l3.7-1.5z'/%3E%3Cpath d='m2.83 9.4 1.85-.78L7.78 16l-1.85.77z'/%3E%3Cpath d='M1 2.4v11.2l3-2.9.4-.1h4.8z'/%3E%3C/svg%3E"), auto`
-    : '';
+
+  if (viewData.includeCursor) {
+    const cursor =
+      viewData.block && viewData.block.type === 'fullScreen'
+        ? // If the block type is fullscreen, just make the cursor invisible
+          'url(data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw), auto'
+        : // Otherwise, apply the filters to the cursor
+          `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xml:space='preserve' width='120' height='40' viewBox='0 0 120 40' style='filter:${encodeURIComponent(
+            view.body.cssFilter
+          )} ${encodeURIComponent(
+            view.doc.cssFilter
+          )}'%3E%3Cpath fill='%23FFF' d='M15 27V11l11.6 11.6h-6.8l-.4.1z'/%3E%3Cpath fill='%23FFF' d='m24.1 27.7-3.6 1.5-4.7-11.1 3.7-1.5z'/%3E%3Cpath d='m17.8 20.4 1.9-.7 3 7.3-1.8.8z'/%3E%3Cpath d='M16 13.4v11.2l3-2.9.4-.1h4.8z'/%3E${
+            view.body.svgFilterElt
+              ? encodeURIComponent(
+                  view.body.svgFilterElt.querySelector('filter').outerHTML
+                )
+              : ''
+          }${
+            view.doc.svgFilterElt
+              ? encodeURIComponent(
+                  view.doc.svgFilterElt.querySelector('filter').outerHTML
+                )
+              : ''
+          }%3C/svg%3E") 16 13.4, auto`;
+    document.documentElement.style.cursor = cursor;
+  } else {
+    document.documentElement.style.cursor = '';
+  }
 }
 
 // Setup refresh listener
