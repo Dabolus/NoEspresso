@@ -3,7 +3,7 @@
 
   "name": "NoEspresso",
   "description": "NoEspresso vision simulator",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "homepage_url": "https://github.com/Dabolus/NoEspresso",
 
   "browser_action": {
