@@ -16,6 +16,7 @@ const kSvgDocClassName = 'noEspressoSvgFilterDoc';
 const kSvgBodyClassName = 'noEspressoSvgFilterBody';
 const kSvgOverlayClassName = 'noEspressoSvgOverlay';
 const kBlockerClassName = 'noEspressoVisionBlockingDiv';
+const kBackgroundClassName = 'noEspressoBackgroundDiv';
 const kCloudyClassName = 'noEspressoVisionCloudyDiv';
 const kMaxFloaters = 15;
 const kMaxFloaterTravel = 10; // Percent of screen
@@ -350,6 +351,18 @@ function createBlockerDiv(block) {
   return blockerDiv;
 }
 
+function createBackgroundDiv() {
+  const backgroundDiv = document.createElement('div');
+  backgroundDiv.className = kBackgroundClassName;
+  const style =
+    'z-index:-2147483646 !important; ' +
+    'pointer-events: none; ' +
+    'position: fixed; ' +
+    'top: 0; left: 0; width: 100%; height: 100%; background-color: #fff;';
+  backgroundDiv.setAttribute('style', style);
+  return backgroundDiv;
+}
+
 function createSvgSnowOverlay(snow) {
   if (!snow || !snow.amount) {
     return null;
@@ -457,6 +470,8 @@ function getView(viewData) {
     view.blockerDiv = createBlockerDiv(viewData.block);
   }
 
+  view.backgroundDiv = createBackgroundDiv();
+
   if (viewData.blur) {
     view.doc.cssFilter += 'blur(' + viewData.blur + 'px) ';
   }
@@ -494,6 +509,7 @@ function getViewData(settings) {
     cloudy: { zoom: zoom, cloudyLevel: settings.cloudyLevel * 6 },
     flutter: { zoom: zoom, flutterLevel: settings.flutterLevel },
     includeCursor: settings.includeCursor,
+    addBackgroundLayer: settings.addBackgroundLayer,
   };
 
   if (settings.blockStrength) {
@@ -648,6 +664,17 @@ function refresh(viewData) {
     if (view.blockerDiv) {
       document.body.appendChild(view.blockerDiv);
     }
+  }
+
+  if (viewData.addBackgroundLayer) {
+    if (typeof view.backgroundDiv !== 'undefined') {
+      deleteNodeIfExists(document.querySelector('.' + kBackgroundClassName)); // Delete old one
+      if (view.backgroundDiv) {
+        document.body.appendChild(view.backgroundDiv);
+      }
+    }
+  } else {
+    deleteNodeIfExists(document.querySelector('.' + kBackgroundClassName)); // Delete old one
   }
 
   document.documentElement.style.filter = view.doc.cssFilter;

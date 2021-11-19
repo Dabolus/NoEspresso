@@ -56,6 +56,9 @@ function updateSettingsImpl() {
   const includeCursorCheckbox = document.querySelector(
     'input[type="checkbox"][name="includeCursor"]'
   );
+  const addBackgroundLayerCheckbox = document.querySelector(
+    'input[type="checkbox"][name="addBackgroundLayer"]'
+  );
   browser.extension.getBackgroundPage().updateSettings({
     blurLevel: parseInt(document.getElementById('blur').value),
     contrastLevel: parseInt(document.getElementById('contrast').value),
@@ -70,6 +73,7 @@ function updateSettingsImpl() {
     blockType: blockType,
     blockStrength: parseInt(document.getElementById('blockStrength').value),
     includeCursor: includeCursorCheckbox.checked,
+    addBackgroundLayer: addBackgroundLayerCheckbox.checked,
   });
 }
 
@@ -136,6 +140,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const includeCursor = settings.includeCursor || false;
   if (includeCursor) {
     document.visionSettings.includeCursor.checked = 'checked';
+  }
+  const addBackgroundLayer = settings.addBackgroundLayer || false;
+  if (addBackgroundLayer) {
+    document.visionSettings.addBackgroundLayer.checked = 'checked';
   }
   // ----------------------------------------------------------------------
 
