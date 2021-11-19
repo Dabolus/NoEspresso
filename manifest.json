@@ -4,7 +4,7 @@
   "name": "NoEspresso",
   "description": "NoEspresso vision simulator",
   "version": "0.5.0",
-  "homepage_url": "https://giorgio.garasto.me",
+  "homepage_url": "https://github.com/Dabolus/NoEspresso",
 
   "browser_action": {
     "default_icon": "icon48.png",
